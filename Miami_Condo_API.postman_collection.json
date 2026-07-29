@@ -1,0 +1,505 @@
+{
+  "info": {
+    "name": "Miami Condo API",
+    "description": "API endpoints for the Miami Condo backend platform. Structured for a seamless testing flow.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "neighbourhoodId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "developmentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "waterfrontId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "articleId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "contactId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Neighbourhoods",
+      "description": "Run this module first, as Developments and Waterfronts require a Neighbourhood ID.",
+      "item": [
+        {
+          "name": "Create Neighbourhood",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('neighbourhoodId', jsonData.data._id);",
+                  "    console.log('Saved neighbourhoodId: ' + jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/neighbourhoods",
+              "host": ["{{baseUrl}}"],
+              "path": ["neighbourhoods"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Brickell\",\n  \"slug\": \"brickell-miami\",\n  \"shortDescription\": \"The financial district of Miami.\",\n  \"fullDescription\": \"Brickell is a dense, high-rise residential neighborhood with many upscale, luxury condominium and apartment towers.\",\n  \"heroImage\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\",\n  \"themeImages\": [\n    { \"url\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\", \"index\": 1 }\n  ],\n  \"amenities\": [\"swimming pool\", \"fitness center\", \"restaurant\"],\n  \"location\": {\n    \"city\": \"Miami\",\n    \"state\": \"FL\",\n    \"country\": \"USA\",\n    \"latitude\": 25.7588,\n    \"longitude\": -80.1916,\n    \"mapEmbedUrl\": \"https://maps.google.com/brickell\"\n  },\n  \"isFeatured\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Neighbourhoods",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/neighbourhoods",
+              "host": ["{{baseUrl}}"],
+              "path": ["neighbourhoods"]
+            }
+          }
+        },
+        {
+          "name": "Get Neighbourhood By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/neighbourhoods/{{neighbourhoodId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["neighbourhoods", "{{neighbourhoodId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Neighbourhood",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/neighbourhoods/{{neighbourhoodId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["neighbourhoods", "{{neighbourhoodId}}"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isFeatured\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Neighbourhood",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/neighbourhoods/{{neighbourhoodId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["neighbourhoods", "{{neighbourhoodId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Developments",
+      "description": "Requires a valid neighbourhoodId to link.",
+      "item": [
+        {
+          "name": "Create Development",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('developmentId', jsonData.data._id);",
+                  "    console.log('Saved developmentId: ' + jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/developments",
+              "host": ["{{baseUrl}}"],
+              "path": ["developments"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"developmentName\": \"Aston Martin Residences\",\n  \"propertySlug\": \"aston-martin-residences\",\n  \"selectedNeighbourhood\": \"{{neighbourhoodId}}\",\n  \"address\": \"300 Biscayne Blvd Way\",\n  \"city\": \"Miami\",\n  \"startingPrice\": 1500000,\n  \"constructionStage\": \"under construction\",\n  \"deliveryYear\": \"2024\",\n  \"developer\": \"G&G Business Developments\",\n  \"pricePerSqft\": 1200,\n  \"bedrooms\": \"1-5\",\n  \"stories\": 66,\n  \"totalResidencies\": 391,\n  \"sizeRange\": \"698 - 10,463 Sq.Ft.\",\n  \"heroImage\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\",\n  \"galleryImages\": [\n    { \"url\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\", \"index\": 1 }\n  ],\n  \"projectOverview\": \"Luxury tower featuring waterfront views and exclusive amenities.\",\n  \"shortIntroduction\": \"Experience unmatched luxury at Aston Martin Residences.\",\n  \"amenities\": [\"swimming pool\", \"spa\", \"private lounge\"],\n  \"category\": [\"luxury\", \"waterfront\"],\n  \"features\": [\"Private elevator access\", \"Custom Italian cabinetry\"],\n  \"depositStructure\": \"20% at contract, 10% at groundbreaking...\",\n  \"salesProgress\": \"80% Sold\",\n  \"rentalPolicy\": \"Minimum 6 months\",\n  \"currentStage\": \"structure exterior\",\n  \"expectedDelivery\": \"Q3 2024\",\n  \"residences\": [\n    {\n      \"residenceType\": \"Penthouse\",\n      \"bedrooms\": \"4\",\n      \"bathrooms\": \"4.5\",\n      \"interiorSize\": \"3,500\",\n      \"terraceSize\": \"500\",\n      \"startingPrice\": 5500000,\n      \"status\": \"available\",\n      \"floorPlan\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\"\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Developments",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/developments",
+              "host": ["{{baseUrl}}"],
+              "path": ["developments"]
+            }
+          }
+        },
+        {
+          "name": "Get Development By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/developments/{{developmentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["developments", "{{developmentId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Development",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/developments/{{developmentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["developments", "{{developmentId}}"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"salesProgress\": \"95% Sold\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Development",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/developments/{{developmentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["developments", "{{developmentId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Waterfronts",
+      "description": "Requires a valid neighbourhoodId to link.",
+      "item": [
+        {
+          "name": "Create Waterfront",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('waterfrontId', jsonData.data._id);",
+                  "    console.log('Saved waterfrontId: ' + jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/waterfronts",
+              "host": ["{{baseUrl}}"],
+              "path": ["waterfronts"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyName\": \"Oceanfront Villa\",\n  \"propertySlug\": \"oceanfront-villa\",\n  \"neighbourhood\": \"{{neighbourhoodId}}\",\n  \"waterfrontCategory\": \"Oceanfront\",\n  \"startingPrice\": 8500000,\n  \"propertyAddress\": \"123 Ocean Dr\",\n  \"city\": \"Miami Beach\",\n  \"zipCode\": \"33139\",\n  \"bedrooms\": \"6\",\n  \"bathrooms\": \"7.5\",\n  \"interiorSqft\": 8500,\n  \"latitude\": 25.7725,\n  \"longitude\": -80.1341\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Waterfronts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/waterfronts",
+              "host": ["{{baseUrl}}"],
+              "path": ["waterfronts"]
+            }
+          }
+        },
+        {
+          "name": "Get Waterfront By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/waterfronts/{{waterfrontId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["waterfronts", "{{waterfrontId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Waterfront",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/waterfronts/{{waterfrontId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["waterfronts", "{{waterfrontId}}"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startingPrice\": 9000000\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Waterfront",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/waterfronts/{{waterfrontId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["waterfronts", "{{waterfrontId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Articles",
+      "item": [
+        {
+          "name": "Create Article",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('articleId', jsonData.data._id);",
+                  "    console.log('Saved articleId: ' + jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/articles",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Top 10 New Miami Condos\",\n  \"authorName\": \"Jane Doe\",\n  \"publishDate\": \"2024-05-01T00:00:00Z\",\n  \"articleContent\": \"<p>Miami is seeing a massive influx of luxury developments...</p>\",\n  \"featureImage\": \"https://res.cloudinary.com/demo/image/upload/sample.jpg\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Articles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/articles",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles"]
+            }
+          }
+        },
+        {
+          "name": "Get Article By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/articles/{{articleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles", "{{articleId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Article",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/articles/{{articleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles", "{{articleId}}"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Top 12 New Miami Condos\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Article",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/articles/{{articleId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["articles", "{{articleId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Contacts",
+      "item": [
+        {
+          "name": "Create Contact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('contactId', jsonData.data._id);",
+                  "    console.log('Saved contactId: ' + jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/contacts",
+              "host": ["{{baseUrl}}"],
+              "path": ["contacts"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Smith\",\n  \"email\": \"john@example.com\",\n  \"phoneNumber\": \"+1-555-0123\",\n  \"budget\": \"$2M - $5M\",\n  \"primaryGoal\": \"Investment\",\n  \"timeline\": \"Within 6 months\",\n  \"message\": \"I am interested in learning more about pre-construction waterfront properties.\",\n  \"status\": \"pending\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Contacts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/contacts",
+              "host": ["{{baseUrl}}"],
+              "path": ["contacts"]
+            }
+          }
+        },
+        {
+          "name": "Get Contact By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/contacts/{{contactId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["contacts", "{{contactId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Contact",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/contacts/{{contactId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["contacts", "{{contactId}}"]
+            },
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Contact",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/contacts/{{contactId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["contacts", "{{contactId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Analytics",
+      "item": [
+        {
+          "name": "Get Dashboard Analytics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/analytics",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
