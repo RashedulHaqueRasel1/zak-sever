@@ -5,18 +5,19 @@ import AppError from '../errors/AppError';
 import { User } from '../modules/user/user.model';
 export const protect = async (req: Request, res: Response, next: NextFunction) => {
       const token = req.headers.authorization?.split(' ')[1];
-      if (!token) throw new AppError(httpStatus.NOT_FOUND, 'Token not found');
+      if (!token) {
+            return next(new AppError(httpStatus.NOT_FOUND, 'Token not found'));
+      }
 
       try {
-            const decoded = (await jwt.verify(token, process.env.JWT_ACCESS_SECRET!)) as JwtPayload;
-            // console.log(decoded)
+            const decoded = (await jwt.verify(token, process.env.JWT_ACCESS_SECRET || 'default_secret')) as JwtPayload;
             const user = await User.findById(decoded._id);
-            if (user && (await User.isOTPVerified(user._id))) {
+            if (user) {
                   req.user = user;
             }
             next();
       } catch (err) {
-            throw new AppError(401, 'Invalid token');
+            return next(new AppError(401, 'Invalid token'));
       }
 };
 
