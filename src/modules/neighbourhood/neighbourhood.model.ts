@@ -14,38 +14,41 @@ const neighbourhoodSchema = new Schema<INeighbourhood>(
       unique: true,
       trim: true,
     },
+    title: { type: String, required: true, trim: true },
+    subTitle: { type: String, required: true, trim: true },
+    activeProjects: { type: Number, required: true, min: 0 },
+    priceRange: { type: String, required: true, trim: true },
+    averagePricePerSqft: { type: String, required: true, trim: true },
+    deliveryWindow: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
     shortDescription: {
       type: String,
-      required: true,
     },
     fullDescription: {
       type: String,
-      required: true,
     },
     heroImage: {
       type: String,
-      required: true,
     },
     themeImages: [
       {
-        url: { type: String, required: true },
-        index: { type: Number, required: true },
+        url: { type: String },
+        index: { type: Number },
       },
     ],
     amenities: [
       {
         type: String,
         enum: Object.values(EAmenities),
-        required: true,
       },
     ],
     location: {
       city: { type: String, required: true },
-      state: { type: String, required: true },
-      country: { type: String, required: true },
-      latitude: { type: Number, required: true },
-      longitude: { type: Number, required: true },
-      mapEmbedUrl: { type: String, required: true },
+      state: { type: String, default: '' },
+      country: { type: String, default: '' },
+      latitude: { type: Number, default: 0 },
+      longitude: { type: Number, default: 0 },
+      mapEmbedUrl: { type: String, default: '' },
     },
     isFeatured: {
       type: Boolean,

@@ -33,11 +33,18 @@ export interface INeighbourhoodLocation {
 export interface INeighbourhood {
   name: string;
   slug: string;
-  shortDescription: string;
-  fullDescription: string;
-  heroImage: string;
-  themeImages: INeighbourhoodThemeImage[];
-  amenities: EAmenities[];
+  title: string;
+  subTitle: string;
+  activeProjects: number;
+  priceRange: string;
+  averagePricePerSqft: string;
+  deliveryWindow: string;
+  description: string;
+  shortDescription?: string;
+  fullDescription?: string;
+  heroImage?: string;
+  themeImages?: INeighbourhoodThemeImage[];
+  amenities?: EAmenities[];
   location: INeighbourhoodLocation;
   isFeatured?: boolean;
   createdAt?: Date;

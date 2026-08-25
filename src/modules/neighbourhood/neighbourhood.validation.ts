@@ -9,15 +9,16 @@ const createNeighbourhoodValidationSchema = z.object({
     slug: z.string({
       required_error: 'Slug is required',
     }),
-    shortDescription: z.string({
-      required_error: 'Short description is required',
-    }),
-    fullDescription: z.string({
-      required_error: 'Full description is required',
-    }),
-    heroImage: z.string({
-      required_error: 'Hero image URL is required',
-    }),
+    title: z.string().min(1, 'Title is required'),
+    subTitle: z.string().min(1, 'Subtitle is required'),
+    activeProjects: z.number().min(0, 'Active projects cannot be negative'),
+    priceRange: z.string().min(1, 'Price range is required'),
+    averagePricePerSqft: z.string().min(1, 'Average price per square foot is required'),
+    deliveryWindow: z.string().min(1, 'Delivery window is required'),
+    description: z.string().min(1, 'Description is required'),
+    shortDescription: z.string().optional(),
+    fullDescription: z.string().optional(),
+    heroImage: z.string().optional(),
     themeImages: z.array(
       z.object({
         url: z.string({
@@ -27,27 +28,17 @@ const createNeighbourhoodValidationSchema = z.object({
           required_error: 'Theme image index is required',
         }),
       })
-    ).min(1, 'At least one theme image is required'),
-    amenities: z.array(z.nativeEnum(EAmenities)).min(1, 'At least one amenity is required'),
+    ).optional(),
+    amenities: z.array(z.nativeEnum(EAmenities)).optional(),
     location: z.object({
       city: z.string({
         required_error: 'City is required',
       }),
-      state: z.string({
-        required_error: 'State is required',
-      }),
-      country: z.string({
-        required_error: 'Country is required',
-      }),
-      latitude: z.number({
-        required_error: 'Latitude is required',
-      }),
-      longitude: z.number({
-        required_error: 'Longitude is required',
-      }),
-      mapEmbedUrl: z.string({
-        required_error: 'Map embed URL is required',
-      }),
+      state: z.string().optional(),
+      country: z.string().optional(),
+      latitude: z.number().optional(),
+      longitude: z.number().optional(),
+      mapEmbedUrl: z.string().optional(),
     }),
     isFeatured: z.boolean().optional(),
   }),
@@ -57,6 +48,13 @@ const updateNeighbourhoodValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),
     slug: z.string().optional(),
+    title: z.string().optional(),
+    subTitle: z.string().optional(),
+    activeProjects: z.number().min(0).optional(),
+    priceRange: z.string().optional(),
+    averagePricePerSqft: z.string().optional(),
+    deliveryWindow: z.string().optional(),
+    description: z.string().optional(),
     shortDescription: z.string().optional(),
     fullDescription: z.string().optional(),
     heroImage: z.string().optional(),
