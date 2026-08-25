@@ -10,19 +10,20 @@ const AppError_1 = __importDefault(require("../errors/AppError"));
 const user_model_1 = require("../modules/user/user.model");
 const protect = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
-    if (!token)
-        throw new AppError_1.default(http_status_1.default.NOT_FOUND, 'Token not found');
+    if (!token) {
+        return next(new AppError_1.default(http_status_1.default.NOT_FOUND, 'Token not found'));
+    }
     try {
-        const decoded = (await jsonwebtoken_1.default.verify(token, process.env.JWT_ACCESS_SECRET));
-        // console.log(decoded)
+        const secret = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_ACCESS_SECRET || 'default_secret';
+        const decoded = (await jsonwebtoken_1.default.verify(token, secret));
         const user = await user_model_1.User.findById(decoded._id);
-        if (user && (await user_model_1.User.isOTPVerified(user._id))) {
+        if (user) {
             req.user = user;
         }
         next();
     }
     catch (err) {
-        throw new AppError_1.default(401, 'Invalid token');
+        return next(new AppError_1.default(401, 'Invalid token'));
     }
 };
 exports.protect = protect;

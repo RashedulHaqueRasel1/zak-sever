@@ -10,7 +10,8 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
       }
 
       try {
-            const decoded = (await jwt.verify(token, process.env.JWT_ACCESS_SECRET || 'default_secret')) as JwtPayload;
+            const secret = process.env.ACCESS_TOKEN_SECRET || process.env.JWT_ACCESS_SECRET || 'default_secret';
+            const decoded = (await jwt.verify(token, secret)) as JwtPayload;
             const user = await User.findById(decoded._id);
             if (user) {
                   req.user = user;

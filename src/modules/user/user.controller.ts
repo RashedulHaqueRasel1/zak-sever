@@ -28,7 +28,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
                   role: user.role,
             };
             
-            const accessToken = jwt.sign(jwtPayload, process.env.JWT_ACCESS_SECRET as string || 'default_secret', {
+            const accessToken = jwt.sign(jwtPayload, process.env.ACCESS_TOKEN_SECRET || process.env.JWT_ACCESS_SECRET || 'default_secret', {
                   expiresIn: '1d',
             });
             
