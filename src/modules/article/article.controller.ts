@@ -28,7 +28,7 @@ const getAllArticles = catchAsync(async (req: Request, res: Response) => {
 
 const getArticleById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ArticleServices.getArticleByIdFromDB(id);
+  const result = await ArticleServices.getArticleByIdFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,7 +40,7 @@ const getArticleById = catchAsync(async (req: Request, res: Response) => {
 
 const updateArticle = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ArticleServices.updateArticleInDB(id, req.body);
+  const result = await ArticleServices.updateArticleInDB(String(id), req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,7 +52,7 @@ const updateArticle = catchAsync(async (req: Request, res: Response) => {
 
 const deleteArticle = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ArticleServices.deleteArticleFromDB(id);
+  const result = await ArticleServices.deleteArticleFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

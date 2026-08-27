@@ -28,7 +28,7 @@ const getAllWaterfronts = (0, catchAsync_1.default)(async (req, res) => {
 });
 const getWaterfrontById = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await waterfront_service_1.WaterfrontServices.getWaterfrontByIdFromDB(id);
+    const result = await waterfront_service_1.WaterfrontServices.getWaterfrontByIdFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -38,7 +38,7 @@ const getWaterfrontById = (0, catchAsync_1.default)(async (req, res) => {
 });
 const updateWaterfront = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await waterfront_service_1.WaterfrontServices.updateWaterfrontInDB(id, req.body);
+    const result = await waterfront_service_1.WaterfrontServices.updateWaterfrontInDB(String(id), req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -48,7 +48,7 @@ const updateWaterfront = (0, catchAsync_1.default)(async (req, res) => {
 });
 const deleteWaterfront = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await waterfront_service_1.WaterfrontServices.deleteWaterfrontFromDB(id);
+    const result = await waterfront_service_1.WaterfrontServices.deleteWaterfrontFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

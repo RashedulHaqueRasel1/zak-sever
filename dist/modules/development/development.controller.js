@@ -28,7 +28,7 @@ const getAllDevelopments = (0, catchAsync_1.default)(async (req, res) => {
 });
 const getDevelopmentById = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await development_service_1.DevelopmentServices.getDevelopmentByIdFromDB(id);
+    const result = await development_service_1.DevelopmentServices.getDevelopmentByIdFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -38,7 +38,7 @@ const getDevelopmentById = (0, catchAsync_1.default)(async (req, res) => {
 });
 const updateDevelopment = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await development_service_1.DevelopmentServices.updateDevelopmentInDB(id, req.body);
+    const result = await development_service_1.DevelopmentServices.updateDevelopmentInDB(String(id), req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -48,7 +48,7 @@ const updateDevelopment = (0, catchAsync_1.default)(async (req, res) => {
 });
 const deleteDevelopment = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await development_service_1.DevelopmentServices.deleteDevelopmentFromDB(id);
+    const result = await development_service_1.DevelopmentServices.deleteDevelopmentFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

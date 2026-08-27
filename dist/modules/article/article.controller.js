@@ -28,7 +28,7 @@ const getAllArticles = (0, catchAsync_1.default)(async (req, res) => {
 });
 const getArticleById = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await article_service_1.ArticleServices.getArticleByIdFromDB(id);
+    const result = await article_service_1.ArticleServices.getArticleByIdFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -38,7 +38,7 @@ const getArticleById = (0, catchAsync_1.default)(async (req, res) => {
 });
 const updateArticle = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await article_service_1.ArticleServices.updateArticleInDB(id, req.body);
+    const result = await article_service_1.ArticleServices.updateArticleInDB(String(id), req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -48,7 +48,7 @@ const updateArticle = (0, catchAsync_1.default)(async (req, res) => {
 });
 const deleteArticle = (0, catchAsync_1.default)(async (req, res) => {
     const { id } = req.params;
-    const result = await article_service_1.ArticleServices.deleteArticleFromDB(id);
+    const result = await article_service_1.ArticleServices.deleteArticleFromDB(String(id));
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

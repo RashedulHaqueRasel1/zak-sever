@@ -28,7 +28,7 @@ const getAllContacts = catchAsync(async (req: Request, res: Response) => {
 
 const getContactById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ContactServices.getContactByIdFromDB(id);
+  const result = await ContactServices.getContactByIdFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,7 +40,7 @@ const getContactById = catchAsync(async (req: Request, res: Response) => {
 
 const updateContact = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ContactServices.updateContactInDB(id, req.body);
+  const result = await ContactServices.updateContactInDB(String(id), req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,7 +52,7 @@ const updateContact = catchAsync(async (req: Request, res: Response) => {
 
 const deleteContact = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await ContactServices.deleteContactFromDB(id);
+  const result = await ContactServices.deleteContactFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

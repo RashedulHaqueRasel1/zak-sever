@@ -28,7 +28,7 @@ const getAllNeighbourhoods = catchAsync(async (req: Request, res: Response) => {
 
 const getNeighbourhoodById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await NeighbourhoodServices.getNeighbourhoodByIdFromDB(id);
+  const result = await NeighbourhoodServices.getNeighbourhoodByIdFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,7 +40,7 @@ const getNeighbourhoodById = catchAsync(async (req: Request, res: Response) => {
 
 const updateNeighbourhood = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await NeighbourhoodServices.updateNeighbourhoodInDB(id, req.body);
+  const result = await NeighbourhoodServices.updateNeighbourhoodInDB(String(id), req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,7 +52,7 @@ const updateNeighbourhood = catchAsync(async (req: Request, res: Response) => {
 
 const deleteNeighbourhood = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await NeighbourhoodServices.deleteNeighbourhoodFromDB(id);
+  const result = await NeighbourhoodServices.deleteNeighbourhoodFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -37,3 +37,15 @@ export const deleteFromCloudinary = async (publicId: string) => {
             console.error('Error deleting from Cloudinary:', error);
       }
 };
+
+export const uploadBufferToCloudinary = (buffer: Buffer, folder = 'zakers/developments') =>
+      new Promise<{ secure_url: string; public_id: string; width: number; height: number }>((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                  { resource_type: 'image', folder },
+                  (error, result) => {
+                        if (error || !result) return reject(error ?? new Error('Cloudinary upload failed'));
+                        resolve({ secure_url: result.secure_url, public_id: result.public_id, width: result.width, height: result.height });
+                  },
+            );
+            stream.end(buffer);
+      });

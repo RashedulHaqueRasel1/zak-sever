@@ -28,7 +28,7 @@ const getAllDevelopments = catchAsync(async (req: Request, res: Response) => {
 
 const getDevelopmentById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await DevelopmentServices.getDevelopmentByIdFromDB(id);
+  const result = await DevelopmentServices.getDevelopmentByIdFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,7 +40,7 @@ const getDevelopmentById = catchAsync(async (req: Request, res: Response) => {
 
 const updateDevelopment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await DevelopmentServices.updateDevelopmentInDB(id, req.body);
+  const result = await DevelopmentServices.updateDevelopmentInDB(String(id), req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,7 +52,7 @@ const updateDevelopment = catchAsync(async (req: Request, res: Response) => {
 
 const deleteDevelopment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await DevelopmentServices.deleteDevelopmentFromDB(id);
+  const result = await DevelopmentServices.deleteDevelopmentFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

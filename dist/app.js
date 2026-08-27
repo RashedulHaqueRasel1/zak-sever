@@ -16,6 +16,18 @@ const corsOptions = {
     credentials: true,
 };
 app.use((0, cors_1.default)(corsOptions));
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'Zakers Server API is running smoothly',
+    });
+});
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'UP',
+        timestamp: new Date().toISOString(),
+    });
+});
 app.use('/api/v1', routes_1.default);
 app.use(notFound_1.notFound);
 app.use(globalErrorHandler_1.globalErrorHandler);

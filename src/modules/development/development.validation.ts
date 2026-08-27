@@ -13,6 +13,41 @@ const residenceValidationSchema = z.object({
   floorPlan: z.string({ required_error: 'Floor plan is required' }),
 });
 
+const pageContentSchema = z.object({
+  hoa: z.string().optional(),
+  constructionProgress: z.object({
+    stage: z.string(),
+    percentage: z.number().min(0).max(100),
+  }).optional(),
+  projectFeatures: z.array(z.object({
+    title: z.string(),
+    description: z.string(),
+    image: z.string().url(),
+    imagePosition: z.enum(['left', 'right']),
+  })).optional(),
+  team: z.object({
+    developer: z.string().optional(),
+    architect: z.string().optional(),
+    interiorDesign: z.string().optional(),
+    description: z.string().optional(),
+  }).optional(),
+  moreViewImages: z.array(z.string().url()).optional(),
+  marketPositions: z.array(z.object({ percentage: z.string(), title: z.string(), subtitle: z.string() })).optional(),
+  investmentSignals: z.array(z.object({ brandName: z.string(), title: z.string(), subtitle: z.string() })).optional(),
+  ourTake: z.object({
+    description: z.string().optional(), image: z.string().url().optional(), hoa: z.string().optional(),
+    rentalPolicy: z.string().optional(), delivery: z.string().optional(), height: z.string().optional(),
+    developer: z.string().optional(), architect: z.string().optional(), interiors: z.string().optional(),
+  }).optional(),
+  locationAndNeighborhood: z.object({ mapEmbedUrl: z.string().optional(), images: z.array(z.string().url()).max(2).optional() }).optional(),
+  amenitiesSection: z.object({
+    title: z.string().optional(), subtitle: z.string().optional(),
+    items: z.array(z.object({ icon: z.string().url().optional(), title: z.string(), subtitle: z.string() })).optional(),
+  }).optional(),
+  upperPenthouse: z.object({ title: z.string().optional(), subtitle: z.string().optional(), images: z.array(z.string().url()).optional() }).optional(),
+  closingImage: z.string().url().optional(),
+});
+
 const createDevelopmentValidationSchema = z.object({
   body: z.object({
     developmentName: z.string({ required_error: 'Development name is required' }),
@@ -38,7 +73,7 @@ const createDevelopmentValidationSchema = z.object({
     ).min(1, 'At least one gallery image is required'),
     projectOverview: z.string({ required_error: 'Project overview is required' }),
     shortIntroduction: z.string({ required_error: 'Short introduction is required' }),
-    amenities: z.array(z.nativeEnum(EAmenities)).min(1, 'At least one amenity is required'),
+    amenities: z.array(z.nativeEnum(EAmenities)),
     category: z.array(z.nativeEnum(ECategory)).min(1, 'At least one category is required'),
     features: z.array(z.string()).min(1, 'At least one feature is required'),
     depositStructure: z.string({ required_error: 'Deposit structure is required' }),
@@ -46,7 +81,8 @@ const createDevelopmentValidationSchema = z.object({
     rentalPolicy: z.string({ required_error: 'Rental policy is required' }),
     currentStage: z.nativeEnum(ECurrentStage).optional(),
     expectedDelivery: z.string().optional(),
-    residences: z.array(residenceValidationSchema).min(1, 'At least one residence is required'),
+    residences: z.array(residenceValidationSchema),
+    pageContent: pageContentSchema.optional(),
   }),
 });
 
@@ -84,6 +120,7 @@ const updateDevelopmentValidationSchema = z.object({
     currentStage: z.nativeEnum(ECurrentStage).optional(),
     expectedDelivery: z.string().optional(),
     residences: z.array(residenceValidationSchema.partial()).optional(),
+    pageContent: pageContentSchema.partial().optional(),
   }),
 });
 

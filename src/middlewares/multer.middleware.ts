@@ -25,3 +25,13 @@ export const upload = multer({
             cb(new Error('Only images (jpeg, jpg, png) are allowed'));
       },
 });
+
+export const imageMemoryUpload = multer({
+      storage: multer.memoryStorage(),
+      limits: { fileSize: 10 * 1024 * 1024, files: 30 },
+      fileFilter: (_req, file, cb) => {
+            const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+            if (allowed.includes(file.mimetype)) return cb(null, true);
+            cb(new Error('Only JPEG, PNG, WebP, and SVG images are allowed'));
+      },
+});

@@ -15,6 +15,20 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Zakers Server API is running smoothly',
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'UP',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.use('/api/v1', router);
 
 app.use(notFound as never);

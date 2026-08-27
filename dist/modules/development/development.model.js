@@ -66,6 +66,54 @@ const developmentSchema = new mongoose_1.Schema({
         },
     ],
     residences: [residenceSchema],
+    pageContent: {
+        hoa: String,
+        constructionProgress: {
+            stage: String,
+            percentage: { type: Number, min: 0, max: 100 },
+        },
+        projectFeatures: [{
+                title: String,
+                description: String,
+                image: String,
+                imagePosition: { type: String, enum: ['left', 'right'] },
+            }],
+        team: {
+            developer: String,
+            architect: String,
+            interiorDesign: String,
+            description: String,
+        },
+        moreViewImages: [String],
+        marketPositions: [{ percentage: String, title: String, subtitle: String }],
+        investmentSignals: [{ brandName: String, title: String, subtitle: String }],
+        ourTake: {
+            description: String,
+            image: String,
+            hoa: String,
+            rentalPolicy: String,
+            delivery: String,
+            height: String,
+            developer: String,
+            architect: String,
+            interiors: String,
+        },
+        locationAndNeighborhood: {
+            mapEmbedUrl: String,
+            images: [String],
+        },
+        amenitiesSection: {
+            title: String,
+            subtitle: String,
+            items: [{ icon: String, title: String, subtitle: String }],
+        },
+        upperPenthouse: {
+            title: String,
+            subtitle: String,
+            images: [String],
+        },
+        closingImage: String,
+    },
 }, {
     timestamps: true,
 });

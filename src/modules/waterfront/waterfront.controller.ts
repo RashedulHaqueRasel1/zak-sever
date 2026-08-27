@@ -28,7 +28,7 @@ const getAllWaterfronts = catchAsync(async (req: Request, res: Response) => {
 
 const getWaterfrontById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await WaterfrontServices.getWaterfrontByIdFromDB(id);
+  const result = await WaterfrontServices.getWaterfrontByIdFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,7 +40,7 @@ const getWaterfrontById = catchAsync(async (req: Request, res: Response) => {
 
 const updateWaterfront = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await WaterfrontServices.updateWaterfrontInDB(id, req.body);
+  const result = await WaterfrontServices.updateWaterfrontInDB(String(id), req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,7 +52,7 @@ const updateWaterfront = catchAsync(async (req: Request, res: Response) => {
 
 const deleteWaterfront = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await WaterfrontServices.deleteWaterfrontFromDB(id);
+  const result = await WaterfrontServices.deleteWaterfrontFromDB(String(id));
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

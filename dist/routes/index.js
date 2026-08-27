@@ -11,6 +11,7 @@ const waterfront_route_1 = __importDefault(require("../modules/waterfront/waterf
 const article_route_1 = __importDefault(require("../modules/article/article.route"));
 const contact_route_1 = __importDefault(require("../modules/contact/contact.route"));
 const analytics_route_1 = __importDefault(require("../modules/analytics/analytics.route"));
+const upload_route_1 = __importDefault(require("../modules/upload/upload.route"));
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -40,6 +41,10 @@ const moduleRoutes = [
     {
         path: '/analytics',
         route: analytics_route_1.default,
+    },
+    {
+        path: '/uploads',
+        route: upload_route_1.default,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

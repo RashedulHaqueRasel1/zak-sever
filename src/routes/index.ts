@@ -6,6 +6,7 @@ import waterfrontRoutes from '../modules/waterfront/waterfront.route';
 import articleRoutes from '../modules/article/article.route';
 import contactRoutes from '../modules/contact/contact.route';
 import analyticsRoutes from '../modules/analytics/analytics.route';
+import uploadRoutes from '../modules/upload/upload.route';
 const router = Router();
 
 const moduleRoutes = [
@@ -36,6 +37,10 @@ const moduleRoutes = [
       {
             path: '/analytics',
             route: analyticsRoutes,
+      },
+      {
+            path: '/uploads',
+            route: uploadRoutes,
       },
 ];
 

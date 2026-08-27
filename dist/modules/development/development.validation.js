@@ -14,6 +14,40 @@ const residenceValidationSchema = zod_1.z.object({
     status: zod_1.z.nativeEnum(development_interface_1.EResidenceStatus, { required_error: 'Status is required' }),
     floorPlan: zod_1.z.string({ required_error: 'Floor plan is required' }),
 });
+const pageContentSchema = zod_1.z.object({
+    hoa: zod_1.z.string().optional(),
+    constructionProgress: zod_1.z.object({
+        stage: zod_1.z.string(),
+        percentage: zod_1.z.number().min(0).max(100),
+    }).optional(),
+    projectFeatures: zod_1.z.array(zod_1.z.object({
+        title: zod_1.z.string(),
+        description: zod_1.z.string(),
+        image: zod_1.z.string().url(),
+        imagePosition: zod_1.z.enum(['left', 'right']),
+    })).optional(),
+    team: zod_1.z.object({
+        developer: zod_1.z.string().optional(),
+        architect: zod_1.z.string().optional(),
+        interiorDesign: zod_1.z.string().optional(),
+        description: zod_1.z.string().optional(),
+    }).optional(),
+    moreViewImages: zod_1.z.array(zod_1.z.string().url()).optional(),
+    marketPositions: zod_1.z.array(zod_1.z.object({ percentage: zod_1.z.string(), title: zod_1.z.string(), subtitle: zod_1.z.string() })).optional(),
+    investmentSignals: zod_1.z.array(zod_1.z.object({ brandName: zod_1.z.string(), title: zod_1.z.string(), subtitle: zod_1.z.string() })).optional(),
+    ourTake: zod_1.z.object({
+        description: zod_1.z.string().optional(), image: zod_1.z.string().url().optional(), hoa: zod_1.z.string().optional(),
+        rentalPolicy: zod_1.z.string().optional(), delivery: zod_1.z.string().optional(), height: zod_1.z.string().optional(),
+        developer: zod_1.z.string().optional(), architect: zod_1.z.string().optional(), interiors: zod_1.z.string().optional(),
+    }).optional(),
+    locationAndNeighborhood: zod_1.z.object({ mapEmbedUrl: zod_1.z.string().optional(), images: zod_1.z.array(zod_1.z.string().url()).max(2).optional() }).optional(),
+    amenitiesSection: zod_1.z.object({
+        title: zod_1.z.string().optional(), subtitle: zod_1.z.string().optional(),
+        items: zod_1.z.array(zod_1.z.object({ icon: zod_1.z.string().url().optional(), title: zod_1.z.string(), subtitle: zod_1.z.string() })).optional(),
+    }).optional(),
+    upperPenthouse: zod_1.z.object({ title: zod_1.z.string().optional(), subtitle: zod_1.z.string().optional(), images: zod_1.z.array(zod_1.z.string().url()).optional() }).optional(),
+    closingImage: zod_1.z.string().url().optional(),
+});
 const createDevelopmentValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
         developmentName: zod_1.z.string({ required_error: 'Development name is required' }),
@@ -37,7 +71,7 @@ const createDevelopmentValidationSchema = zod_1.z.object({
         })).min(1, 'At least one gallery image is required'),
         projectOverview: zod_1.z.string({ required_error: 'Project overview is required' }),
         shortIntroduction: zod_1.z.string({ required_error: 'Short introduction is required' }),
-        amenities: zod_1.z.array(zod_1.z.nativeEnum(neighbourhood_interface_1.EAmenities)).min(1, 'At least one amenity is required'),
+        amenities: zod_1.z.array(zod_1.z.nativeEnum(neighbourhood_interface_1.EAmenities)),
         category: zod_1.z.array(zod_1.z.nativeEnum(development_interface_1.ECategory)).min(1, 'At least one category is required'),
         features: zod_1.z.array(zod_1.z.string()).min(1, 'At least one feature is required'),
         depositStructure: zod_1.z.string({ required_error: 'Deposit structure is required' }),
@@ -45,7 +79,8 @@ const createDevelopmentValidationSchema = zod_1.z.object({
         rentalPolicy: zod_1.z.string({ required_error: 'Rental policy is required' }),
         currentStage: zod_1.z.nativeEnum(development_interface_1.ECurrentStage).optional(),
         expectedDelivery: zod_1.z.string().optional(),
-        residences: zod_1.z.array(residenceValidationSchema).min(1, 'At least one residence is required'),
+        residences: zod_1.z.array(residenceValidationSchema),
+        pageContent: pageContentSchema.optional(),
     }),
 });
 const updateDevelopmentValidationSchema = zod_1.z.object({
@@ -80,6 +115,7 @@ const updateDevelopmentValidationSchema = zod_1.z.object({
         currentStage: zod_1.z.nativeEnum(development_interface_1.ECurrentStage).optional(),
         expectedDelivery: zod_1.z.string().optional(),
         residences: zod_1.z.array(residenceValidationSchema.partial()).optional(),
+        pageContent: pageContentSchema.partial().optional(),
     }),
 });
 exports.DevelopmentValidation = {

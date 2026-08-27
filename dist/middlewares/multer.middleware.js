@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.upload = void 0;
+exports.imageMemoryUpload = exports.upload = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const storage = multer_1.default.diskStorage({
@@ -26,5 +26,15 @@ exports.upload = (0, multer_1.default)({
             return cb(null, true);
         }
         cb(new Error('Only images (jpeg, jpg, png) are allowed'));
+    },
+});
+exports.imageMemoryUpload = (0, multer_1.default)({
+    storage: multer_1.default.memoryStorage(),
+    limits: { fileSize: 10 * 1024 * 1024, files: 30 },
+    fileFilter: (_req, file, cb) => {
+        const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+        if (allowed.includes(file.mimetype))
+            return cb(null, true);
+        cb(new Error('Only JPEG, PNG, WebP, and SVG images are allowed'));
     },
 });
